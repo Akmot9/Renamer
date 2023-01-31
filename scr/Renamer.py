@@ -121,8 +121,8 @@ root.title("The Renamer2")       # On lui donne un titre
 root.geometry("500x350")         # On lui donne une certaine dimension
 
 import os
-icon = resource_path("icon.ico")
-root.iconbitmap(icon)
+##icon = resource_path("icon.ico")
+##root.iconbitmap(icon)
 
 
 
