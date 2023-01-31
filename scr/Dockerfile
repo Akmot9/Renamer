@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y python3-tk
 RUN apt-get install -y python3
@@ -11,4 +11,4 @@ RUN pip3 install --upgrade pip
 RUN pip3 install pyinstaller
 RUN pyinstaller --noconfirm --onefile --windowed Renamer.py
 
-CMD [ "./Renamer" ]
+CMD [ "./output/Renamer " ]

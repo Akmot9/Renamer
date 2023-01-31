@@ -1,1 +1,0 @@
-pyinstaller --noconfirm --onefile --windowed  "/home/cyber/Documents/GitHub/Renamer/scr/Renamer.py"
