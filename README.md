@@ -22,7 +22,7 @@ git clone https://github.com/Akmot9/Renamer.git
 
 2. Change into the repo directory by running the following command:
 ```Bash
-cd your_repo
+cd Renamer
 ```
 
 3. Build the Docker image by running the following command:
