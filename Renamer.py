@@ -1,126 +1,187 @@
-print("Renamer 2")
+from tkinter import filedialog
+def open_file_chooser():
+    i=0
+    global filename
+    filename = filedialog.askdirectory()
+    print("Vous avez selectionner le dossier : %s" % filename)
+    import os
+
+    files = []
+    # r=root, d=directories, f = files
+    for r, d, f in os.walk(filename):
+        for file in f:
+            if '.json' in file:
+                files.append(file)
+        break
+
+    print("liste des fichiers :")
+    print(files)
+    for f in files:
+        #ttk.Treeview seems to split a given string by spaces to multiple
+        #values.
+        #If you don't like this behaviour you have to pass the value as
+        #a tuple.
+        tE.insert(parent='', index=0,values=(f,))
+
+    ########################### REGLE 1 ###################################################
+    files2 = []
+    for f in files:
+        regle1 = f.replace("[", "20220501_")
+        # print(regle1)
+        # os.rename(f,regle1)
+        files2.append(regle1)
+
+    ########################### REGLE 2 ###################################################
+    files3 = []
+    for f in files2:
+        # TODO deonner le choix HASH ou CONF
+        regle2 = f.replace("] ", "_HASH-")
+        files3.append(regle2)
+    print("regle 2 :")
+
+    ########################### REGLE 3 ###################################################
+    files4 = []
+    for f in files3:
+        regle3 = f.replace(" ", "")
+        files4.append(regle3)
+    print("regle 3 :")
+
+    ########################### REGLE 4 ###################################################
+    files5 = []
+    for f in files4:
+        # TODO HASH OU CONF (.csv
+        regle4 = f.replace(".json", "")
+        files5.append(regle4)
+
+    print("regle 4 :")
+
+    ########################### REGLE 5 ###################################################
+    global files6
+    files6 = []
+    for f in files5:
+        regle5 = f.split("-")
+        files6.append(regle5)
+    print("regle 5 :")
+    for f in files6:
+        date_cla_HASH = []
+        date_cla_HASH.append(f[0])
+        f.remove(f[0])
+
+        id_liste = []
+        id_liste.append(f[0])
+        f.remove(f[0])
+        id_liste.append(f[0])
+        f.remove(f[0])
+        id_liste.append(f[0])
+        f.remove(f[0])
+
+        id = '-'.join(id_liste)
+        blabla = '-'.join(f)
+        date_cla_HASH.append(blabla)
+        date_cla_HASH.append(id)
+        ok = '_'.join(date_cla_HASH)
+        # TODO RECUPERER LE CHOIX HASH OU CONF
+        ok2 = ok + ".json"
+
+        f.clear()
+        f.append(ok2)
+        tS.insert(parent='', index=0, values=(f,))
+    print(files6)
+
+
+def renommer():
+    import os
+    i = 0
+    # r=root, d=directories, f = files
+    for r, d, f in os.walk(filename):
+        for file in f:
+            if '.json' in file:
+                os.rename(file,''.join(files6[i]))
+                i += 1
+        break
+
+    print("Tous les fichiers ont été renommés avec succés...")
+
+
+def resource_path(relative_path):
+    import sys
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+print("Renamer 2 est lancé")
+
+from tkinter import *            # On importe tkinter : une librarie graphique
+root = Tk()                      # On cree une fenetre appeler root
+root.title("The Renamer2")       # On lui donne un titre
+root.geometry("500x350")         # On lui donne une certaine dimension
 
 import os
-
-path = os.getcwd()
-files = []
-# r=root, d=directories, f = files
-for r, d, f in os.walk(path):
-    for file in f:
-        if '.json' in file:
-            files.append(file)
-
-print("liste des fichiers :")
-for f in files:
-    print(f)
+icon = resource_path("icon.ico")
+root.iconbitmap(icon)
 
 
-########################### REGLE 1 ###################################################
-files2 = []
-for f in files:
-    regle1 = f.replace("[","20220501_")
-    #print(regle1)
-    #os.rename(f,regle1)
-    files2.append(regle1)
-print("regle 1 :")
-for f in files2:
-    print(f)
 
-########################### REGLE 2 ###################################################
-files3 = []
-#TODO deonner le choix HASH ou CONF
-for f in files2:
-    regle2 = f.replace("] ","_HASH-")
+################################ Menue Bar ################################
+scrollbar = Scrollbar(root)
+scrollbar.pack( side = RIGHT, fill = Y )
 
-    #print(regle1)
-    #os.rename(f,regle1)
-    files3.append(regle2)
-print("regle 2 :")
-for f in files3:
-    print(f)
+menubar = Menu(root,
+               background='white',
+               foreground='black',
+               activebackground='white',
+               activeforeground='black')
 
-########################### REGLE 3 ###################################################
-files4 = []
-for f in files3:
-    regle3 = f.replace(" ","")
-    #print(regle1)
-    #os.rename(f,regle1)
-    files4.append(regle3)
+file = Menu(menubar,
+            tearoff=1,
+            background='white',
+            foreground='black')
 
-print("regle 3 :")
-for f in files4:
-    print(f)
+file.add_command(label="Ouvrir", command=open_file_chooser)
+#TODO donner la pocibilitée de sauvgarder
+file.add_command(label="Enregistrer")
+file.add_command(label="Enregistrer sous")
+file.add_separator()
+file.add_command(label="Quitter", command=root.quit)
 
-########################### REGLE 3.2 ###################################################
-files32 = []
-for f in files4:
-    #TODO HASH OU CONF (.csv
-    regle32 = f.replace(".json","")
-    #print(regle1)
-    #os.rename(f,regle1)
-    files32.append(regle32)
+menubar.add_cascade(label="Fichier",
+                    menu=file)
 
-print("regle 3.2 :")
-for f in files32:
-    print(f)
+#TODO mettre un menu "A propos" avec les crdits
 
-########################### REGLE 4 ###################################################
-files5 = []
-for f in files32:
-    regle4 = f.split("-")
-    #print(regle1)
-    #os.rename(f,regle1)
-    files5.append(regle4)
-print("regle 4 :")
-for f in files5:
-    #l = len(f)
-    print(f)
+################################ Tableau d'entrés ################################
+from tkinter import ttk
+#TODO sdroll bar
+tE = ttk.Treeview(root,height=5, yscrollcommand = scrollbar.set)
+tE['columns']=('Nom')
+tE.column('#0', width=0, stretch=NO) # On cree la colone
+tE.column('Nom', width=500)
 
-    date_cla_HASH = []
-    date_cla_HASH.append(f[0])
-    print(date_cla_HASH)
-    f.remove(f[0])
+tE.heading('#0', text='') # entete de la colone
+tE.heading('Nom', text='Fichiers selectionnés', anchor=W)
+tE.place(x=0, y=0)
 
-    id_liste = []
-    id_liste.append(f[0])
-    f.remove(f[0])
-    id_liste.append(f[0])
-    f.remove(f[0])
-    id_liste.append(f[0])
-    f.remove(f[0])
+################################ Tableau de sortie ################################
+#TODO sdroll bar
+tS = ttk.Treeview(root, height=5, yscrollcommand = scrollbar.set)
+tS['columns']=('Nom')
+tS.column('#0', width=0, stretch=NO) # On cree la colone
+tS.column('Nom', width=500)
 
-    id = '-'.join(id_liste)
-    print(id)
-    blabla = '-'.join(f)
-    print(blabla)
-    date_cla_HASH.append(blabla)
-    date_cla_HASH.append(id)
-    ok = '_'.join(date_cla_HASH)
-    print(ok)
-    #TODO RECUPERER LE CHOIX HASH OU CONF
-    ok2 = ok + ".json"
-    print(ok2)
-    f.clear()
-    f.append(ok2)
-    print(" ")
+tS.heading('#0', text='') # entete de la colone
+tS.heading('Nom', text='Fichiers Renommés',anchor=W)
+tS.place(x=0, y=150)
 
-print(" rename :")
-for f in files5:
-    f2 = ''.join(f)
-    print(f2)
+################################ Bouton de renomage ################################
+B= Button(root, text='Renommer', command=renommer)
+B.place(x= 215, y= 290)
+
+scrollbar.config( command = tE.yview and tS.yview() )
 
 
-print(files5)
-print(files)
-########################### REGLE 5 ###################################################
-
-
-i=0
-# r=root, d=directories, f = files
-for r, d, f in os.walk(path):
-    for file in f:
-        if '.json' in file:
-            os.rename(file,''.join(files5[i]))
-            i += 1
-
-print("Tous les fichiers ont été renommés avec succés...")
+root.config(menu=menubar)
+root.mainloop()
