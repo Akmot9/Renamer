@@ -17,7 +17,7 @@ To run the program, follow these steps:
 1. Clone the repo to your local machine by running the following command in your terminal:
 
 ```Bash
-git clone https://github.com/your_username/your_repo.git
+git clone https://github.com/Akmot9/Renamer.git
 ```
 
 2. Change into the repo directory by running the following command:
