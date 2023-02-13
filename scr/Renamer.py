@@ -182,6 +182,13 @@ B.place(x= 215, y= 290)
 
 scrollbar.config( command = tE.yview and tS.yview() )
 
+# Load the image
+from tkinter import *
+img = PhotoImage("img/DALL·E 2023-02-14 00.07.42 - make a logo for a software that rename file names.png")
+img = img.resize((250, 250), Image.ANTIALIAS)
+
+img.pack()
+
 
 root.config(menu=menubar)
 root.mainloop()
