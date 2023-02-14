@@ -177,8 +177,15 @@ tS.heading('Nom', text='Fichiers Renommés',anchor=W)
 tS.place(x=0, y=150)
 
 ################################ Bouton de renomage ################################
-B= Button(root, text='Renommer', command=renommer)
+P = PhotoImage(file = resource_path("img/fichier.png"))
+resized = P.subsample(10, 10)
+label23 = Label(root,image=resized)
+B= Button(root, text='Renommer', command=renommer,image=resized)
 B.place(x= 215, y= 290)
+
+
+#label23.place(x= 215, y= 290)
+
 
 scrollbar.config( command = tE.yview and tS.yview() )
 
